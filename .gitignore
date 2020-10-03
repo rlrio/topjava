@@ -6,3 +6,4 @@ log
 *.patch
 
 
+.DS_Store
