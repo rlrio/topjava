@@ -1,36 +1,47 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="javatime" uri="http://sargue.net/jsptags/time" %>
-<%@ page import="java.time.format.DateTimeFormatter" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://topjava.javawebinar.ru/functions" %>
 <html>
 <head>
-    <title>Meals</title>
+    <title>Meal list</title>
+    <style>
+        .normal {
+            color: green;
+        }
+        .excess {
+            color: red;
+        }
+    </style>
 </head>
 <body>
-<h3><a href="index.html">Home</a></h3>
-<hr>
-<h2>Meals</h2>
-<table border="1">
-    <tr>
-        <th>Дата/Время</th>
-        <th>Описание</th>
-        <th>Калории</th>
-        <th colspan="2">Действие</th>
-    </tr>
-    <c:forEach var="meal" items="${meals}">
-        <tr bgcolor=${meal.excess ? "red" : "green"}>
-            <td>${meal.dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))}</td>
-            <td>${meal.description}</td>
-            <td>${meal.calories}</td>
-            <td>
-                <a href="/topjava/meals?action=edit&mealId=${meal.id}">Edit</a>
-                <a href="/topjava/meals?action=delete&mealId=${meal.id}">Delete</a>
-            </td>
+<section>
+    <h3><a href="index.html">Home</a></h3>
+    <hr/>
+    <h2>Meals</h2>
+    <a href="meals?action=create">Add Meal</a>
+    <br><br>
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Calories</th>
+            <th></th>
+            <th></th>
         </tr>
-    </c:forEach>
-</table>
-<p><a href="/topjava/meals?action=new">Add Meal</a></p>
-
+        </thead>
+        <c:forEach items="${meals}" var="meal">
+            <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.MealTo"/>
+            <tr class="${meal.excess ? 'excess' : 'normal'}">
+                <td>${fn:formatDateTime(meal.dateTime)}</td>
+                <td>${meal.description}</td>
+                <td>${meal.calories}</td>
+                <td><a href="meals?action=update&id=${meal.id}">Update</a></td>
+                <td><a href="meals?action=delete&id=${meal.id}">Delete</a></td>
+            </tr>
+        </c:forEach>
+    </table>
+</section>
 </body>
 </html>
