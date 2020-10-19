@@ -25,6 +25,9 @@ public class UserRepositoryImpl implements UserRepository {
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final SimpleJdbcInsert insertUser;
 
+    public static final int USER_ID = 1;
+    public static final int ADMIN_ID = 2;
+
     public UserRepositoryImpl(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.insertUser = new SimpleJdbcInsert(jdbcTemplate).withTableName("users").usingGeneratedKeyColumns("id");
         this.jdbcTemplate = jdbcTemplate;
