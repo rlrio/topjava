@@ -66,8 +66,8 @@ public class MealRepositoryImpl implements MealRepository {
         Map<Integer, Meal> meals = userMealsMap.get(userId);
         return CollectionUtils.isEmpty(meals) ? Collections.EMPTY_LIST : meals.values()
                 .stream()
-                .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                 .filter(meal -> DateTimeUtil.isBetweenHalfOpen(meal.getTime(), startDateTime.toLocalTime(), endDateTime.toLocalTime()))
+                .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                 .collect(Collectors.toList());
     }
 }
